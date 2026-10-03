@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Bonk Dependra</title>
+<style>
+:root{--bg:#2b1a4a;--panel:#3d2766;--ink:#fff4d6;--hot:#ff4d6d;--sun:#ffd23f;--skin:#f2b880;--box-sizing:border-box;
+ box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:light){:root:not([data-theme="dark"]){--bg:#2b1a4a}}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;background:var(--bg);color:var(--ink);font-family:"Trebuchet MS","Segoe UI",system-ui,sans-serif;-webkit-user-select:none;user-select:none;touch-action:manipulation}
+main{max-width:520px;margin:0 auto;padding:16px;text-align:center}
+h1{font-size:2rem;margin:4px 0;letter-spacing:.5px}
+.hud{display:flex;justify-content:space-between;align-items:center;gap:8px;margin:10px 0}
+.hud div{background:var(--panel);padding:8px 14px;border-radius:14px;font-weight:700;min-width:90px}
+.bar{height:16px;background:var(--panel);border-radius:10px;overflow:hidden;margin-bottom:12px}
+.bar i{display:block;height:100%;width:100%;background:linear-gradient(90deg,var(--hot),var(--sun));transition:width .15s}
+#stage{position:relative;height:340px;background:var(--panel);border-radius:22px;overflow:hidden;cursor:crosshair}
+#guy{position:absolute;left:50%;top:50%;width:150px;height:230px;margin:-115px 0 0 -75px;transition:transform .08s;touch-action:manipulation}
+#guy.hit{transform:translate(var(--x,0px),var(--y,0px)) rotate(var(--r)) scale(.92)}
+#hand{position:absolute;top:28%;left:50%;width:90px;height:90px;margin-left:-45px;font-size:80px;line-height:90px;pointer-events:none;opacity:0}
+@keyframes slapL{0%{opacity:1;transform:translateX(-200px) rotate(-30deg)}55%{opacity:1;transform:translateX(-5px) rotate(10deg) scale(1.15)}100%{opacity:0;transform:translateX(25px) rotate(20deg)}}
+@keyframes slapR{0%{opacity:1;transform:translateX(200px) scaleX(-1) rotate(-30deg)}55%{opacity:1;transform:translateX(5px) scale(-1.15,1.15) rotate(10deg)}100%{opacity:0;transform:translateX(-25px) scaleX(-1) rotate(20deg)}}
+.tools{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:0 0 10px}
+.tools button{margin:0;padding:8px 14px;background:var(--panel);color:var(--ink)}
+.tools button[aria-pressed=true]{background:var(--sun);color:#2b1a4a}
+.cheek{opacity:0;transition:opacity .6s}
+.cheek.on{opacity:.75;transition:none}
+#guy.ko{animation:ko .8s forwards}
+@keyframes ko{to{transform:translateY(300px) rotate(540deg);opacity:0}}
+.pop{position:absolute;font-weight:900;font-size:1.6rem;color:var(--sun);pointer-events:none;animation:up .7s forwards;text-shadow:2px 2px 0 #000}
+@keyframes up{to{transform:translateY(-70px);opacity:0}}
+#guy.cry{animation:sob .5s infinite alternate}
+@keyframes sob{from{transform:translateY(95px) scale(.6) rotate(-3deg)}to{transform:translateY(102px) scale(.6) rotate(4deg)}}
+.goddess{position:absolute;left:50%;top:0;width:130px;margin-left:-65px;opacity:0;transition:opacity .8s;pointer-events:none}
+.goddess.show{opacity:1}
+.glow{animation:pulse 2s infinite alternate}
+@keyframes pulse{to{opacity:.55}}
+.tear{fill:#6ec6ff;opacity:0}
+#guy.cry .tear{animation:tear .9s infinite}
+#guy.cry .t2{animation-delay:.45s}
+@keyframes tear{0%{opacity:.9;transform:translateY(0)}100%{opacity:0;transform:translateY(60px)}}
+#bubble{position:absolute;left:50%;top:136px;transform:translateX(-50%);background:var(--ink);color:#2b1a4a;padding:10px 14px;border-radius:16px;font-weight:800;max-width:90%;display:none;font-size:.95rem;text-align:center}
+#bubble.show{display:block}
+@media (prefers-reduced-motion:reduce){#guy,.pop,.tear{animation-duration:.01s;transition:none}}
+button{font:inherit;font-weight:800;background:var(--sun);color:#2b1a4a;border:0;border-radius:14px;padding:12px 22px;margin-top:14px;cursor:pointer}
+button:focus-visible{outline:3px solid #fff;outline-offset:3px}
+#msg{min-height:1.6em;margin-top:12px;font-weight:700}
+small{opacity:.75;display:block;margin-top:14px}
+</style>
+</head>
+<body>
+<main>
+<h1>Bonk Dependra</h1>
+<div class="hud"><div>Bonks: <span id="n">0</span></div><div>Best: <span id="b">0</span></div></div>
+<div class="bar"><i id="hp"></i></div>
+<div class="tools" id="tools">
+<button data-a="hand" aria-pressed="true">🖐️ Slap</button>
+<button data-a="sandal" aria-pressed="false">🩴 Sandal</button>
+<button data-a="broom" aria-pressed="false">🧹 Sweep</button>
+<button data-a="kick" aria-pressed="false">👟 Kick</button>
+</div>
+<div id="stage" aria-label="Tap Dependra to bonk him">
+<svg id="goddess" class="goddess" viewBox="0 0 130 135" aria-hidden="true">
+ <circle class="glow" cx="65" cy="58" r="56" fill="#ffd23f" opacity=".3"/>
+ <path d="M30 40 Q65 -10 100 40 L104 100 Q65 112 26 100Z" fill="#1b1033"/>
+ <path d="M40 72 L90 72 L104 118 L26 118Z" fill="#fff4d6"/>
+ <circle cx="65" cy="48" r="22" fill="#f2b880"/>
+ <path d="M42 36 Q65 18 88 36 Q65 28 42 36Z" fill="#1b1033"/>
+ <path d="M44 28 L50 14 L58 26 L65 8 L72 26 L80 14 L86 28Z" fill="#ffd23f"/>
+ <circle cx="57" cy="50" r="2.6" fill="#111"/><circle cx="73" cy="50" r="2.6" fill="#111"/>
+ <path d="M58 59 Q65 65 72 59" stroke="#c4545c" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+ <text x="65" y="131" text-anchor="middle" font-size="12" font-weight="700" fill="#ffd23f">Goddess Dikshya</text>
+</svg>
+<div id="bubble" role="status"></div>
+<svg id="guy" viewBox="0 0 150 230" role="button" aria-label="Dependra">
+ <rect x="45" y="120" width="60" height="75" rx="14" fill="#4aa3df"/>
+ <rect x="50" y="190" width="20" height="36" rx="8" fill="#333"/><rect x="80" y="190" width="20" height="36" rx="8" fill="#333"/>
+ <rect x="22" y="125" width="22" height="55" rx="10" fill="#4aa3df"/><rect x="106" y="125" width="22" height="55" rx="10" fill="#4aa3df"/>
+ <circle cx="75" cy="72" r="52" fill="var(--skin)"/>
+ <path d="M26 62 Q75 0 124 62 Q100 38 75 40 Q50 38 26 62Z" fill="#2a1b12"/>
+ <g id="eyes"><circle cx="55" cy="74" r="7" fill="#fff"/><circle cx="95" cy="74" r="7" fill="#fff"/><circle cx="55" cy="75" r="3.5" fill="#111"/><circle cx="95" cy="75" r="3.5" fill="#111"/></g>
+ <g id="beg" style="display:none"><path d="M45 135 L70 152 M105 135 L80 152" stroke="#4aa3df" stroke-width="16" stroke-linecap="round"/><circle cx="75" cy="152" r="12" fill="var(--skin)"/></g>
+ <g id="sad" style="display:none"><path d="M44 78 Q55 70 66 78" stroke="#111" stroke-width="4" fill="none" stroke-linecap="round"/><path d="M84 78 Q95 70 106 78" stroke="#111" stroke-width="4" fill="none" stroke-linecap="round"/><path d="M42 62 L66 68 M108 62 L84 68" stroke="#2a1b12" stroke-width="4" stroke-linecap="round"/></g>
+ <ellipse class="tear t1" cx="52" cy="84" rx="5" ry="8"/><ellipse class="tear t2" cx="98" cy="84" rx="5" ry="8"/>
+ <ellipse id="cl" class="cheek" cx="38" cy="92" rx="14" ry="10" fill="#ff4d6d"/>
+ <ellipse id="cr" class="cheek" cx="112" cy="92" rx="14" ry="10" fill="#ff4d6d"/>
+ <path id="mouth" d="M55 104 Q75 118 95 104" stroke="#7a2e2e" stroke-width="5" fill="none" stroke-linecap="round"/>
+</svg>
+<div id="hand" aria-hidden="true">🖐️</div>
+</div>
+<div id="msg">Tap or click him as many times as you need.</div>
+<button id="again">Play again</button>
+<small>Just a cartoon. Let it out, then go do something kind for yourself.</small>
+</main>
+<script>
+(function(){
+var HP=40,hp=HP,n=0,best=0;
+try{best=+localStorage.getItem("bonkBest")||0}catch(e){}
+var guy=document.getElementById("guy"),stage=document.getElementById("stage"),
+ bar=document.getElementById("hp"),nEl=document.getElementById("n"),bEl=document.getElementById("b"),
+ msg=document.getElementById("msg"),mouth=document.getElementById("mouth"),eyes=document.getElementById("eyes");
+var hand=document.getElementById("hand"),cur="hand",cryTimer=null;
+function T(x,y){return "translate("+x+"px,"+(y||0)+"px)"}
+var ATK={
+ hand:{e:"🖐️",top:"28%",x:28,y:0,r:16,w:"SLAP!",kf:function(s){return[{opacity:1,transform:T(-200*s)+" scaleX("+s+") rotate(-30deg)"},{opacity:1,offset:.55,transform:T(-5*s)+" scaleX("+s+") scale(1.15) rotate(10deg)"},{opacity:0,transform:T(25*s)+" scaleX("+s+") rotate(20deg)"}]}},
+ sandal:{e:"🩴",top:"30%",x:34,y:0,r:20,w:"CHAPPAL!",kf:function(s){return[{opacity:1,transform:T(-200*s)+" scaleX("+s+") rotate(-140deg)"},{opacity:1,offset:.55,transform:T(-5*s)+" scaleX("+s+") scale(1.2) rotate(15deg)"},{opacity:0,transform:T(25*s)+" scaleX("+s+") rotate(40deg)"}]}},
+ broom:{e:"🧹",top:"52%",x:44,y:10,r:26,w:"SWEEP!",kf:function(s){return[{opacity:1,transform:T(-230*s)+" scaleX("+s+") rotate(-50deg)"},{opacity:1,offset:.55,transform:T(0)+" scaleX("+s+") scale(1.2) rotate(15deg)"},{opacity:0,transform:T(60*s)+" scaleX("+s+") rotate(30deg)"}]}},
+ kick:{e:"👟",top:"60%",x:0,y:-40,r:10,w:"KICK!",kf:function(s){return[{opacity:1,transform:T(-30*s,200)+" scaleX("+s+") rotate(-50deg)"},{opacity:1,offset:.55,transform:T(0,0)+" scaleX("+s+") scale(1.25) rotate(10deg)"},{opacity:0,transform:T(0,-60)+" scaleX("+s+") rotate(10deg)"}]}}
+};
+Array.prototype.forEach.call(document.querySelectorAll("#tools button"),function(b){
+ b.addEventListener("click",function(){cur=b.dataset.a;
+  Array.prototype.forEach.call(document.querySelectorAll("#tools button"),function(o){o.setAttribute("aria-pressed",o===b)});});
+});
+var lines=["He's feeling it.","You are allowed to be upset.","Your feelings matter.","Breathe out. Hit again.","Feeling lighter yet?"];
+bEl.textContent=best;
+function pop(x,y,w){
+ var p=document.createElement("div");p.className="pop";
+ p.textContent=w;
+ p.style.left=x+"px";p.style.top=y+"px";stage.appendChild(p);
+ setTimeout(function(){p.remove()},700);
+}
+function hit(e){
+ if(hp<=0)return;
+ var r=stage.getBoundingClientRect();
+ pop(e.clientX-r.left-30,e.clientY-r.top-20,ATK[cur].w);
+ hp--;n++;nEl.textContent=n;
+ bar.style.width=(hp/HP*100)+"%";
+ var left=(n%2===1),s=left?1:-1,a=ATK[cur];
+ hand.textContent=a.e;hand.style.top=a.top;
+ hand.animate(a.kf(s),{duration:300,easing:"ease-out"});
+ guy.style.setProperty("--x",(a.x*s)+"px");
+ guy.style.setProperty("--y",a.y+"px");
+ guy.style.setProperty("--r",(a.r*s)+"deg");
+ setTimeout(function(){
+  guy.classList.add("hit");
+  var c=document.getElementById(left?"cl":"cr");
+  c.classList.add("on");setTimeout(function(){c.classList.remove("on")},120);
+  setTimeout(function(){guy.classList.remove("hit")},130);
+ },110);
+ mouth.setAttribute("d","M55 112 Q75 96 95 112");
+ if(n%8===0)msg.textContent=lines[Math.floor(Math.random()*lines.length)];
+ if(hp<=0){
+  guy.classList.add("cry");eyes.style.display="none";document.getElementById("sad").style.display="";document.getElementById("beg").style.display="";document.getElementById("goddess").classList.add("show");
+  mouth.setAttribute("d","M55 118 Q65 102 75 116 Q85 102 95 118");
+  msg.textContent="He's down, and he has something to say.";
+  var sorry=["Beautiful Goddess Dikshya, I'm sorry. I hurt you, and that was wrong.","It was my fault. You did nothing to deserve it.","You deserve to be treated with kindness.","Please grow into someone I could only ever dream of being.","Go be happy. I hope things are good for you.","Take care of yourself, Goddess Dikshya."],k=0,bub=document.getElementById("bubble");
+  bub.textContent=sorry[0];bub.className="show";
+  cryTimer=setInterval(function(){
+   if(k<sorry.length-1){k++;bub.textContent=sorry[k];}
+   else{clearInterval(cryTimer);msg.textContent="You got your apology. Time to move on. You've got this.";}
+  },2400);
+  if(n>best){best=n;bEl.textContent=best;try{localStorage.setItem("bonkBest",best)}catch(e){}}
+ }
+}
+stage.addEventListener("pointerdown",hit);
+document.getElementById("again").addEventListener("click",function(){
+ hp=HP;n=0;nEl.textContent=0;bar.style.width="100%";
+ clearInterval(cryTimer);guy.classList.remove("ko","cry");eyes.style.display="";document.getElementById("sad").style.display="none";document.getElementById("beg").style.display="none";document.getElementById("goddess").classList.remove("show");document.getElementById("bubble").className="";mouth.setAttribute("d","M55 104 Q75 118 95 104");
+ msg.textContent="He's back. Go again if you want.";
+});
+})();
+</script>
+</body>
+</html>
