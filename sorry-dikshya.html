@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Sorry, Dikshya</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Quicksand:wght@400;600&display=swap">
+<style>
+:root{
+  --bg:#12041f; --bg2:#240a40; --pink:#ff2bd6; --cyan:#34f5ff; --gold:#ffd36b; --text:#fff0fb; --muted:#d9b8ec;
+  box-sizing:border-box; padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+  color-scheme:dark;
+}
+html{scroll-padding-top:env(safe-area-inset-top,0px);scroll-behavior:smooth}
+*{box-sizing:border-box}
+body{margin:0;background:radial-gradient(120% 80% at 50% 0%,var(--bg2),var(--bg) 70%) var(--bg);color:var(--text);font-family:"Quicksand",system-ui,sans-serif;font-size:18px;line-height:1.6;overflow-x:hidden}
+h1,h2{font-family:"Dancing Script","Brush Script MT",cursive;font-weight:700;margin:0;line-height:1.1}
+section{min-height:100vh;min-height:100svh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:48px 20px;text-align:center;position:relative}
+p{max-width:34ch;margin:12px auto 0;color:var(--muted)}
+.neon{color:#fff;text-shadow:0 0 8px #fff,0 0 20px var(--pink),0 0 44px var(--pink),0 0 80px var(--pink)}
+h1{font-size:clamp(3rem,13vw,6rem)}
+h2{font-size:clamp(2.2rem,9vw,3.6rem)}
+.cue{margin-top:14px;font-size:.95rem;color:var(--cyan);animation:nudge 1.8s ease-in-out infinite}
+@keyframes nudge{50%{transform:translateY(8px)}}
+
+/* lily */
+.lily{width:min(78vw,320px);height:auto;margin-top:6px;filter:drop-shadow(0 0 10px var(--pink)) drop-shadow(0 0 30px #b400ff);animation:glow 3.4s ease-in-out infinite}
+.lily .bloom{transform-origin:150px 170px;animation:sway 6s ease-in-out infinite}
+@keyframes glow{50%{filter:drop-shadow(0 0 16px var(--pink)) drop-shadow(0 0 44px #b400ff)}}
+@keyframes sway{50%{transform:rotate(3deg) scale(1.02)}}
+
+/* chocolate */
+.choc{width:min(80vw,300px);filter:drop-shadow(0 12px 24px rgba(0,0,0,.6));animation:float 4s ease-in-out infinite}
+@keyframes float{50%{transform:translateY(-10px) rotate(1.5deg)}}
+.sweets{font-size:2rem;letter-spacing:.4em;margin-top:14px}
+
+/* gifts */
+.gifts{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;width:min(92vw,420px);margin-top:22px}
+.gift{background:none;border:0;padding:4px;cursor:pointer;border-radius:14px;animation:hop 2.4s ease-in-out infinite;animation-delay:var(--d)}
+.gift:focus-visible,.btn:focus-visible,.close:focus-visible{outline:3px solid var(--cyan);outline-offset:3px}
+.gift svg{width:100%;height:auto;filter:drop-shadow(0 0 8px var(--c))}
+@keyframes hop{0%,70%,100%{transform:translateY(0)}80%{transform:translateY(-12px) rotate(-4deg)}90%{transform:translateY(0) rotate(3deg)}}
+.note{min-height:3.2em;margin-top:18px;color:var(--gold);font-weight:600;max-width:30ch}
+
+/* forgive button */
+.btn{font:700 clamp(1.3rem,5vw,1.7rem)/1.2 "Dancing Script",cursive;color:#fff;background:linear-gradient(135deg,#ff2bd6,#8a2bff);border:2px solid #ffb3f2;padding:18px 34px;border-radius:999px;cursor:pointer;margin-top:30px;box-shadow:0 0 18px var(--pink),0 0 50px rgba(255,43,214,.5);animation:pulse 1.8s ease-in-out infinite}
+.btn:active{transform:scale(.96)}
+@keyframes pulse{50%{transform:scale(1.06);box-shadow:0 0 28px var(--pink),0 0 80px rgba(255,43,214,.7)}}
+
+/* celebration */
+#party{position:fixed;inset:0;z-index:20;display:none;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:calc(20px + env(safe-area-inset-top,0px)) 20px calc(20px + env(safe-area-inset-bottom,0px));background:radial-gradient(90% 70% at 50% 40%,#4b0f6e,#12041f 75%);overflow:hidden}
+#party.on{display:flex;animation:fade .6s ease both}
+@keyframes fade{from{opacity:0}}
+.monkey{width:min(70vw,290px);height:auto;filter:drop-shadow(0 0 20px rgba(255,43,214,.6));animation:bop .6s ease-in-out infinite alternate}
+@keyframes bop{from{transform:translateY(0) rotate(-4deg)}to{transform:translateY(-16px) rotate(4deg)}}
+.armL{transform-origin:100px 160px;animation:armL .6s ease-in-out infinite alternate}
+.armR{transform-origin:140px 160px;animation:armR .6s ease-in-out infinite alternate}
+.legL{transform-origin:105px 235px;animation:legA .6s ease-in-out infinite alternate}
+.legR{transform-origin:135px 235px;animation:legB .6s ease-in-out infinite alternate}
+.tail{transform-origin:148px 215px;animation:tail .5s ease-in-out infinite alternate}
+.skirt{transform-origin:120px 150px;animation:skirt .6s ease-in-out infinite alternate}
+.head{transform-origin:120px 140px;animation:head 1.2s ease-in-out infinite alternate}
+@keyframes armL{from{transform:rotate(10deg)}to{transform:rotate(110deg)}}
+@keyframes armR{from{transform:rotate(-110deg)}to{transform:rotate(-10deg)}}
+@keyframes legA{from{transform:rotate(-14deg)}to{transform:rotate(12deg)}}
+@keyframes legB{from{transform:rotate(12deg)}to{transform:rotate(-14deg)}}
+@keyframes tail{from{transform:rotate(-14deg)}to{transform:rotate(16deg)}}
+@keyframes skirt{from{transform:skewX(-5deg)}to{transform:skewX(5deg)}}
+@keyframes head{from{transform:rotate(-6deg)}to{transform:rotate(6deg)}}
+#party h2{margin-top:10px;font-size:clamp(2.4rem,10vw,4rem)}
+.close{margin-top:22px;background:none;border:1px solid var(--muted);color:var(--muted);font:inherit;font-size:.9rem;padding:8px 18px;border-radius:999px;cursor:pointer}
+.heart{position:fixed;bottom:-40px;z-index:30;pointer-events:none;animation:rise linear forwards}
+@keyframes rise{to{transform:translateY(-115vh) rotate(40deg);opacity:0}}
+.bg-heart{position:absolute;pointer-events:none;opacity:.25;animation:rise 14s linear infinite}
+
+@media (prefers-reduced-motion:reduce){
+  .lily,.lily .bloom,.choc,.gift,.cue,.btn,.bg-heart{animation:none}
+}
+</style>
+</head>
+<body>
+
+<section id="s1">
+  <h1 class="neon">I’m sorry, Dikshya</h1>
+  <p>Before anything else, I made this for you.</p>
+
+  <svg class="lily" viewBox="0 0 300 420" role="img" aria-label="A glowing neon pink lily">
+    <defs>
+      <linearGradient id="pg" x1="0" y1="1" x2="0" y2="0">
+        <stop offset="0" stop-color="#fff6fd"/><stop offset=".28" stop-color="#ffb0f0"/><stop offset=".7" stop-color="#ff4fe0"/><stop offset="1" stop-color="#d400b4"/>
+      </linearGradient>
+      <linearGradient id="pb" x1="0" y1="1" x2="0" y2="0">
+        <stop offset="0" stop-color="#ffd9f8"/><stop offset=".4" stop-color="#e83cd0"/><stop offset="1" stop-color="#8f0fb8"/>
+      </linearGradient>
+      <linearGradient id="st" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#5bff9a"/><stop offset="1" stop-color="#0a8f4e"/>
+      </linearGradient>
+      <g id="pet">
+        <path d="M0,0 C-32,-24 -38,-82 0,-128 C38,-82 32,-24 0,0Z"/>
+      </g>
+      <g id="det" fill="none">
+        <path d="M0,-4 L0,-108" stroke="#fff" stroke-opacity=".55" stroke-width="1.6"/>
+        <path d="M-8,-10 C-14,-50 -10,-90 -2,-112 M8,-10 C14,-50 10,-90 2,-112" stroke="#fff" stroke-opacity=".25" stroke-width="1"/>
+        <g fill="#a3008f" stroke="none" opacity=".75">
+          <circle cx="-4" cy="-22" r="1.8"/><circle cx="5" cy="-30" r="1.6"/><circle cx="-6" cy="-40" r="1.5"/><circle cx="3" cy="-50" r="1.8"/><circle cx="-3" cy="-60" r="1.4"/><circle cx="6" cy="-66" r="1.3"/><circle cx="-7" cy="-30" r="1.3"/>
+        </g>
+      </g>
+    </defs>
+    <!-- stem and leaves -->
+    <path d="M150,175 C146,260 154,330 150,415" stroke="url(#st)" stroke-width="9" fill="none" stroke-linecap="round"/>
+    <path d="M150,300 C100,290 62,310 40,350 C90,352 128,335 150,300Z" fill="url(#st)"/>
+    <path d="M151,340 C200,325 238,340 262,378 C212,382 172,370 151,340Z" fill="url(#st)" opacity=".92"/>
+    <g class="bloom">
+      <g transform="translate(150,170)">
+        <g fill="url(#pb)" opacity=".95">
+          <use href="#pet" transform="rotate(60) scale(.97)"/><use href="#pet" transform="rotate(180) scale(.97)"/><use href="#pet" transform="rotate(300) scale(.97)"/>
+        </g>
+        <g fill="url(#pg)" stroke="#fff" stroke-opacity=".35" stroke-width="1">
+          <use href="#pet"/><use href="#pet" transform="rotate(120)"/><use href="#pet" transform="rotate(240)"/>
+        </g>
+        <use href="#det"/><use href="#det" transform="rotate(120)"/><use href="#det" transform="rotate(240)"/>
+        <g stroke="#ffe58a" stroke-width="2.4" stroke-linecap="round">
+          <g><path d="M0,0 L0,-60"/><ellipse cx="0" cy="-66" rx="4.5" ry="10" fill="#ff9d2b" stroke="none"/></g>
+          <g transform="rotate(50)"><path d="M0,0 L0,-56"/><ellipse cx="0" cy="-62" rx="4.5" ry="10" fill="#ff9d2b" stroke="none"/></g>
+          <g transform="rotate(115)"><path d="M0,0 L0,-62"/><ellipse cx="0" cy="-68" rx="4.5" ry="10" fill="#ff9d2b" stroke="none"/></g>
+          <g transform="rotate(190)"><path d="M0,0 L0,-54"/><ellipse cx="0" cy="-60" rx="4.5" ry="10" fill="#ff9d2b" stroke="none"/></g>
+          <g transform="rotate(255)"><path d="M0,0 L0,-60"/><ellipse cx="0" cy="-66" rx="4.5" ry="10" fill="#ff9d2b" stroke="none"/></g>
+          <g transform="rotate(310)"><path d="M0,0 L0,-57"/><ellipse cx="0" cy="-63" rx="4.5" ry="10" fill="#ff9d2b" stroke="none"/></g>
+        </g>
+        <path d="M0,0 L-6,-72" stroke="#c6ff8a" stroke-width="3" stroke-linecap="round"/><circle cx="-6" cy="-75" r="4.5" fill="#c6ff8a"/>
+        <circle r="7" fill="#7dff9d" opacity=".8"/>
+      </g>
+    </g>
+  </svg>
+  <div class="cue">keep scrolling, there’s more ↓</div>
+</section>
+
+<section id="s2">
+  <h2 class="neon">Some chocolate</h2>
+  <p>Because sorry always sounds better with chocolate.</p>
+  <svg class="choc" viewBox="0 0 280 210" role="img" aria-label="A bar of chocolate">
+    <defs>
+      <linearGradient id="cg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#8a4a22"/><stop offset="1" stop-color="#3d1b0b"/></linearGradient>
+    </defs>
+    <g transform="rotate(-7 140 105)">
+      <rect x="22" y="22" width="236" height="166" rx="14" fill="#2a1207"/>
+      <g id="squares"></g>
+      <path d="M22,36 Q22,22 36,22 L120,22 L22,100Z" fill="#ffd36b" opacity=".95"/>
+      <path d="M22,100 L120,22 L100,22 L22,84Z" fill="#fff3c2" opacity=".7"/>
+    </g>
+  </svg>
+  <div class="sweets" aria-hidden="true">🍫🍓🍬</div>
+  <div class="cue">one last thing ↓</div>
+</section>
+
+<section id="s4">
+  <h2 class="neon">Dikshya, can you forgive me?</h2>
+  <p>I know I messed up. I’m really, truly sorry.</p>
+  <button class="btn" id="yes">Okie, you are forgiven 💖</button>
+</section>
+
+<div id="party" role="dialog" aria-label="Celebration">
+  <svg class="monkey" viewBox="0 0 240 300" role="img" aria-label="A female monkey dancing">
+    <g class="tail"><path d="M148,215 C196,218 212,168 188,146" stroke="#7a4a22" stroke-width="10" fill="none" stroke-linecap="round"/></g>
+    <g class="legL"><line x1="105" y1="235" x2="100" y2="274" stroke="#7a4a22" stroke-width="13" stroke-linecap="round"/><ellipse cx="97" cy="280" rx="14" ry="7" fill="#5e3517"/></g>
+    <g class="legR"><line x1="135" y1="235" x2="140" y2="274" stroke="#7a4a22" stroke-width="13" stroke-linecap="round"/><ellipse cx="143" cy="280" rx="14" ry="7" fill="#5e3517"/></g>
+    <g class="skirt"><path d="M96,148 L144,148 L176,240 L64,240Z" fill="#ff3fc0"/><path d="M64,240 Q120,258 176,240 L170,226 Q120,242 70,226Z" fill="#ff8be0"/><circle cx="104" cy="195" r="4" fill="#fff" opacity=".7"/><circle cx="132" cy="210" r="4" fill="#fff" opacity=".7"/><circle cx="120" cy="176" r="4" fill="#fff" opacity=".7"/></g>
+    <g class="armL"><line x1="100" y1="160" x2="55" y2="195" stroke="#7a4a22" stroke-width="12" stroke-linecap="round"/><circle cx="52" cy="198" r="9" fill="#f1c999"/></g>
+    <g class="armR"><line x1="140" y1="160" x2="185" y2="195" stroke="#7a4a22" stroke-width="12" stroke-linecap="round"/><circle cx="188" cy="198" r="9" fill="#f1c999"/></g>
+    <g class="head">
+      <circle cx="76" cy="102" r="17" fill="#7a4a22"/><circle cx="76" cy="102" r="9" fill="#f1c999"/>
+      <circle cx="164" cy="102" r="17" fill="#7a4a22"/><circle cx="164" cy="102" r="9" fill="#f1c999"/>
+      <circle cx="120" cy="100" r="44" fill="#7a4a22"/>
+      <path d="M120,84 C96,76 84,98 90,116 C96,136 144,136 150,116 C156,98 144,76 120,84Z" fill="#f1c999"/>
+      <circle cx="107" cy="102" r="5" fill="#2a1207"/><circle cx="133" cy="102" r="5" fill="#2a1207"/>
+      <circle cx="108.5" cy="100.5" r="1.7" fill="#fff"/><circle cx="134.5" cy="100.5" r="1.7" fill="#fff"/>
+      <path d="M100,96 l-6,-4 M102,93 l-3,-6 M140,96 l6,-4 M138,93 l3,-6" stroke="#2a1207" stroke-width="1.6" stroke-linecap="round"/>
+      <circle cx="96" cy="116" r="6" fill="#ff7fc8" opacity=".6"/><circle cx="144" cy="116" r="6" fill="#ff7fc8" opacity=".6"/>
+      <circle cx="116" cy="114" r="1.6" fill="#8a5a2b"/><circle cx="124" cy="114" r="1.6" fill="#8a5a2b"/>
+      <path d="M106,121 Q120,136 134,121 Q120,127 106,121Z" fill="#b3262a"/>
+      <g transform="translate(146,64) rotate(18)"><path d="M0,0 L-24,-14 L-24,14Z M0,0 L24,-14 L24,14Z" fill="#ff2bd6"/><circle r="6" fill="#ffd36b"/></g>
+    </g>
+  </svg>
+  <h2 class="neon">Thank you, Sundari Dikshya 💕</h2>
+  <p>You just made my whole day.</p>
+  <button class="close" id="back">Back to the flowers</button>
+</div>
+
+<script>
+(function(){
+  // chocolate squares
+  var sq = document.getElementById('squares'), s = '';
+  for (var r=0;r<3;r++) for (var c=0;c<4;c++){
+    var x = 32 + c*56, y = 32 + r*50;
+    s += '<rect x="'+x+'" y="'+y+'" width="50" height="44" rx="6" fill="url(#cg)"/>' +
+         '<path d="M'+(x+6)+','+(y+8)+' L'+(x+30)+','+(y+8)+'" stroke="#d99a62" stroke-opacity=".5" stroke-width="2" stroke-linecap="round"/>';
+  }
+  sq.innerHTML = s;
+
+  // floating background hearts
+  var hearts = ['💗','💖','💕'];
+  [['#s1',6],['#s2',5]].forEach(function(p){
+    var sec = document.querySelector(p[0]);
+    sec.style.overflow = 'hidden';
+    for (var i=0;i<p[1];i++){
+      var h = document.createElement('span');
+      h.className = 'bg-heart'; h.setAttribute('aria-hidden','true');
+      h.textContent = hearts[i%3];
+      h.style.left = (Math.random()*92)+'%';
+      h.style.bottom = '-40px';
+      h.style.fontSize = (16+Math.random()*20)+'px';
+      h.style.animationDelay = (-Math.random()*14)+'s';
+      h.style.animationDuration = (10+Math.random()*8)+'s';
+      sec.appendChild(h);
+    }
+  });
+
+  // forgive
+  var party = document.getElementById('party');
+  function burst(){
+    var set = ['💖','💕','💗','🌸','✨','🎉','💝'];
+    for (var i=0;i<45;i++){
+      var h = document.createElement('span');
+      h.className = 'heart'; h.setAttribute('aria-hidden','true');
+      h.textContent = set[i%set.length];
+      h.style.left = (Math.random()*96)+'vw';
+      h.style.fontSize = (18+Math.random()*26)+'px';
+      h.style.animationDuration = (3+Math.random()*3)+'s';
+      h.style.animationDelay = (Math.random()*1.6)+'s';
+      document.body.appendChild(h);
+      setTimeout(function(el){ el.remove(); }, 8000, h);
+    }
+  }
+  document.getElementById('yes').addEventListener('click',function(){
+    party.classList.add('on'); burst();
+    document.getElementById('back').focus();
+  });
+  document.getElementById('back').addEventListener('click',function(){
+    party.classList.remove('on');
+  });
+})();
+</script>
+</body>
+</html>
